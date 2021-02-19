@@ -5,6 +5,37 @@ import {Logo} from './components/logo'
 import {Dialog} from '@reach/dialog'
 import '@reach/dialog/styles.css'
 
+function LoginForm({onSubmit, buttonText = 'login'}) {
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    const username = event.target.username.value
+    const password = event.target.password.value
+
+    onSubmit({username, password})
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="username">Username</label>
+        <input id="username" />
+      </div>
+
+      <div>
+        <label htmlFor="password">Password</label>
+        <input id="password" type="password" />
+      </div>
+
+      <input type="submit" value={buttonText} />
+    </form>
+  )
+}
+
+function handleSubmit(formData) {
+  console.log('login', formData)
+}
+
 function App() {
   const [openModal, setOpenModal] = React.useState('none')
 
@@ -36,9 +67,10 @@ function App() {
           <button onClick={closeLoginDialog}>Close</button>
         </div>
 
-        <h3>Hello there login</h3>
-      </Dialog>
+        <h3>Login</h3>
 
+        <LoginForm onSubmit={handleSubmit} buttonText="Login" />
+      </Dialog>
       <Dialog
         aria-label="Registration form"
         isOpen={openModal === 'register'}
